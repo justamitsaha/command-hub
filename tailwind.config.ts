@@ -13,7 +13,12 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        mono: ["Fira Code", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+      },
       colors: {
+        "code-bg": "hsl(var(--code-bg))",
+        "code-text": "hsl(var(--code-text))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
