@@ -35,14 +35,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container max-w-7xl mx-auto px-4 py-8 space-y-8">
+      <div className="container max-w-[1600px] mx-auto px-4 py-4 space-y-4">
         {/* Header */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <Terminal className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold tracking-tight">Developer Toolkit</h1>
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Terminal className="h-6 w-6 text-primary" />
+            <h1 className="text-2xl font-bold tracking-tight">Developer Toolkit</h1>
           </div>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-sm">
             Quick access to your most-used commands
           </p>
         </div>
@@ -52,41 +52,41 @@ const Index = () => {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search commands, descriptions, or sections..."
-            className="pl-10 h-12 text-base"
+            className="pl-9 h-9 text-sm"
           />
         </div>
 
         {/* Commands */}
         {filteredSections.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground text-lg">No commands found matching "{search}"</p>
+          <div className="text-center py-8">
+            <p className="text-muted-foreground text-sm">No commands found matching "{search}"</p>
           </div>
         ) : (
-          <Accordion type="multiple" defaultValue={filteredSections.map((_, i) => `section-${i}`)} className="space-y-4">
+          <Accordion type="multiple" defaultValue={filteredSections.map((_, i) => `section-${i}`)} className="space-y-2">
             {filteredSections.map((section, idx) => (
               <AccordionItem
                 key={`section-${idx}`}
                 value={`section-${idx}`}
                 className="border border-border rounded-lg bg-card overflow-hidden"
               >
-                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 transition-colors">
-                  <div className="flex flex-col items-start gap-1 text-left">
-                    <h2 className="text-lg font-semibold">{section.title}</h2>
+                <AccordionTrigger className="px-4 py-2.5 hover:no-underline hover:bg-muted/50 transition-colors">
+                  <div className="flex flex-col items-start gap-0.5 text-left">
+                    <h2 className="text-base font-semibold">{section.title}</h2>
                     {section.description && (
-                      <p className="text-sm text-muted-foreground">{section.description}</p>
+                      <p className="text-xs text-muted-foreground">{section.description}</p>
                     )}
-                    <span className="text-xs text-muted-foreground mt-1">
+                    <span className="text-xs text-muted-foreground">
                       {Object.keys(section.commands).length} command{Object.keys(section.commands).length !== 1 ? 's' : ''}
                     </span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                <AccordionContent className="px-4 pb-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 pt-2">
                     {Object.entries(section.commands).map(([cmd, desc]) => (
                       <CommandCard key={cmd} command={cmd} description={desc} />
                     ))}

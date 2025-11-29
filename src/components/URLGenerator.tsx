@@ -17,23 +17,23 @@ export const URLGenerator = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Dynamic URL Generator</CardTitle>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base">Dynamic URL Generator</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3">
         <div className="flex gap-2">
           <Input
             value={host}
             onChange={(e) => setHost(e.target.value)}
             placeholder="http://localhost"
-            className="flex-1"
+            className="flex-1 h-8 text-sm"
           />
-          <Button variant="outline" size="sm" onClick={() => setHost("http://localhost")}>
+          <Button variant="outline" size="sm" onClick={() => setHost("http://localhost")} className="h-8 text-xs">
             Reset
           </Button>
         </div>
 
-        <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
+        <div className="space-y-1.5 max-h-64 overflow-y-auto pr-2">
           {Object.entries(URL_MAP).map(([name, path]) => {
             const fullUrl = `${host}${path}`;
             const isCopied = copiedUrl === fullUrl;
@@ -41,36 +41,36 @@ export const URLGenerator = () => {
             return (
               <div
                 key={name}
-                className="flex items-center justify-between gap-3 p-3 rounded-md bg-code-bg text-code-text hover:ring-2 hover:ring-primary/50 transition-all group"
+                className="flex items-center justify-between gap-2 p-2 rounded-md bg-code-bg text-code-text hover:ring-2 hover:ring-primary/50 transition-all group"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-xs text-code-text/90 mb-1">
+                  <div className="font-semibold text-xs text-code-text/90 mb-0.5">
                     {name}
                   </div>
-                  <div className="font-mono text-xs text-code-text/70 truncate">
+                  <div className="font-mono text-[10px] text-code-text/70 truncate">
                     {fullUrl}
                   </div>
                 </div>
-                <div className="flex gap-1 shrink-0">
+                <div className="flex gap-0.5 shrink-0">
                   <Button
                     size="sm"
                     variant="ghost"
                     onClick={() => handleCopy(fullUrl)}
-                    className="h-8 w-8 p-0 text-code-text/70 hover:text-code-text hover:bg-code-text/10"
+                    className="h-6 w-6 p-0 text-code-text/70 hover:text-code-text hover:bg-code-text/10"
                   >
                     {isCopied ? (
-                      <Check className="h-4 w-4" />
+                      <Check className="h-3 w-3" />
                     ) : (
-                      <Copy className="h-4 w-4" />
+                      <Copy className="h-3 w-3" />
                     )}
                   </Button>
                   <Button
                     size="sm"
                     variant="ghost"
                     onClick={() => window.open(fullUrl, "_blank")}
-                    className="h-8 w-8 p-0 text-code-text/70 hover:text-code-text hover:bg-code-text/10"
+                    className="h-6 w-6 p-0 text-code-text/70 hover:text-code-text hover:bg-code-text/10"
                   >
-                    <ExternalLink className="h-4 w-4" />
+                    <ExternalLink className="h-3 w-3" />
                   </Button>
                 </div>
               </div>
