@@ -1,5 +1,7 @@
-/* URL Generator Configuration */
-export const URL_MAP: Record<string, string> = {
+import type { CommandSection } from "@/types/config";
+
+/* Default URL Generator Configuration */
+const DEFAULT_URL_MAP: Record<string, string> = {
   "Config Server Actuator": "/config/actuator/health",
   "Config for Order API ": "/config/order-service/dev",
   "Config for Customer API": "/config/customer-service/default/main",
@@ -14,14 +16,8 @@ export const URL_MAP: Record<string, string> = {
   "Web App": "/web",
 };
 
-/* Command Sections */
-export interface CommandSection {
-  title: string;
-  description?: string;
-  commands: Record<string, string>;
-}
-
-export const COMMAND_SECTIONS: CommandSection[] = [
+/* Default Command Sections */
+const DEFAULT_COMMAND_SECTIONS: CommandSection[] = [
   {
     title: "App Set up Commands",
     commands: {
@@ -103,3 +99,14 @@ export const COMMAND_SECTIONS: CommandSection[] = [
     }
   }
 ];
+
+/* Export configuration with environment variable support */
+export const URL_MAP: Record<string, string> = 
+  typeof window !== 'undefined' && window.APP_CONFIG?.urlMap 
+    ? window.APP_CONFIG.urlMap 
+    : DEFAULT_URL_MAP;
+
+export const COMMAND_SECTIONS: CommandSection[] = 
+  typeof window !== 'undefined' && window.APP_CONFIG?.commandSections 
+    ? window.APP_CONFIG.commandSections 
+    : DEFAULT_COMMAND_SECTIONS;
