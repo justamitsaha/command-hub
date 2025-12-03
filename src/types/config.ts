@@ -4,9 +4,19 @@ export interface CommandSection {
   commands: Record<string, string>;
 }
 
-export interface AppConfig {
+export interface TabConfig {
+  id: string;
+  label: string;
+  dataFile: string;
+}
+
+export interface AppData {
   urlMap: Record<string, string>;
   commandSections: CommandSection[];
+}
+
+export interface AppConfig {
+  tabs?: TabConfig[];
 }
 
 declare global {
