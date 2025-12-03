@@ -27,7 +27,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
         const filteredCommands = Object.entries(section.commands).filter(
           ([cmd, desc]) =>
             cmd.toLowerCase().includes(query) ||
-            (desc as string).toLowerCase().includes(query) ||
+            desc.toLowerCase().includes(query) ||
             section.title.toLowerCase().includes(query)
         );
 
@@ -109,7 +109,7 @@ const TabContent = ({ tabId }: { tabId: string }) => {
               <AccordionContent className="px-4 pb-3">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 pt-2">
                   {Object.entries(section.commands).map(([cmd, desc]) => (
-                    <CommandCard key={cmd} command={cmd} description={desc as string} />
+                    <CommandCard key={cmd} command={cmd} description={desc} />
                   ))}
                 </div>
               </AccordionContent>

@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
-import type { AppData } from "@/types/config";
+
+export interface CommandSection {
+  title: string;
+  description?: string;
+  commands: Record<string, string>;
+}
+
+export interface AppData {
+  urlMap: Record<string, string>;
+  commandSections: CommandSection[];
+}
 
 const BASE_PATH = import.meta.env.BASE_URL || "/";
 
