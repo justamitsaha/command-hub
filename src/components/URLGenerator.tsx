@@ -4,9 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { URL_MAP } from "@/data/commands";
 
-export const URLGenerator = () => {
+interface URLGeneratorProps {
+  urlMap: Record<string, string>;
+}
+
+export const URLGenerator = ({ urlMap }: URLGeneratorProps) => {
   const [host, setHost] = useState("http://localhost");
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +19,12 @@ export const URLGenerator = () => {
     setCopiedUrl(url);
     setTimeout(() => setCopiedUrl(null), 2000);
   };
+
+  const entries = Object.entries(urlMap);
+  
+  if (entries.length === 0) {
+    return null;
+  }
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -41,7 +50,7 @@ export const URLGenerator = () => {
             </div>
 
             <div className="space-y-1.5">
-              {Object.entries(URL_MAP).map(([name, path]) => {
+              {entries.map(([name, path]) => {
                 const fullUrl = `${host}${path}`;
                 const isCopied = copiedUrl === fullUrl;
                 
