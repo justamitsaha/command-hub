@@ -12,6 +12,9 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Set base path for GCP deployment
+ENV VITE_BASE_PATH=/support/
+
 # Build the app
 RUN npm run build
 
