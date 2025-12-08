@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Terminal, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { CommandCard } from "@/components/CommandCard";
@@ -124,6 +124,37 @@ const TabContent = ({ tabId }: { tabId: string }) => {
 const Index = () => {
   const tabs = getTabs();
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "kubernetes");
+
+  // Keyboard shortcuts for tab switching (1-9 for tabs, arrow keys for navigation)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      // Number keys 1-9 to switch tabs
+      if (e.key >= '1' && e.key <= '9') {
+        const index = parseInt(e.key) - 1;
+        if (index < tabs.length) {
+          setActiveTab(tabs[index].id);
+        }
+      }
+
+      // Arrow keys for navigation
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const currentIndex = tabs.findIndex(t => t.id === activeTab);
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+          setActiveTab(tabs[currentIndex - 1].id);
+        } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
+          setActiveTab(tabs[currentIndex + 1].id);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [tabs, activeTab]);
 
   return (
     <div className="min-h-screen bg-background">
