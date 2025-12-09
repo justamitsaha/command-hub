@@ -10,7 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getTabs } from "@/data/tabs";
+import { useTabConfig } from "@/hooks/useTabConfig";
 import { useTabData } from "@/hooks/useTabData";
 
 const TabContent = ({ tabId }: { tabId: string }) => {
@@ -122,8 +122,15 @@ const TabContent = ({ tabId }: { tabId: string }) => {
 };
 
 const Index = () => {
-  const tabs = getTabs();
-  const [activeTab, setActiveTab] = useState(tabs[0]?.id || "kubernetes");
+  const { tabs, loading: tabsLoading } = useTabConfig();
+  const [activeTab, setActiveTab] = useState<string>("");
+
+  // Set initial active tab when tabs are loaded
+  useEffect(() => {
+    if (tabs.length > 0 && !activeTab) {
+      setActiveTab(tabs[0].id);
+    }
+  }, [tabs, activeTab]);
 
   // Keyboard shortcuts for tab switching (1-9 for tabs, arrow keys for navigation)
   useEffect(() => {
@@ -156,6 +163,14 @@ const Index = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [tabs, activeTab]);
 
+  if (tabsLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container max-w-[1600px] mx-auto px-4 py-4 space-y-4">
@@ -171,20 +186,22 @@ const Index = () => {
         </div>
 
         {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="h-9">
+        {tabs.length > 0 && activeTab && (
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="h-9">
+              {tabs.map((tab) => (
+                <TabsTrigger key={tab.id} value={tab.id} className="text-sm px-4">
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
             {tabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className="text-sm px-4">
-                {tab.label}
-              </TabsTrigger>
+              <TabsContent key={tab.id} value={tab.id} className="mt-4">
+                <TabContent tabId={tab.id} />
+              </TabsContent>
             ))}
-          </TabsList>
-          {tabs.map((tab) => (
-            <TabsContent key={tab.id} value={tab.id} className="mt-4">
-              <TabContent tabId={tab.id} />
-            </TabsContent>
-          ))}
-        </Tabs>
+          </Tabs>
+        )}
       </div>
     </div>
   );
