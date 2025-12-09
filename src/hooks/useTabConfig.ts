@@ -6,7 +6,7 @@ export interface TabConfig {
   dataFile: string;
 }
 
-const BASE_PATH = import.meta.env.BASE_URL || "/";
+const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/justamitsaha/configurationServer/main";
 
 const DEFAULT_TABS: TabConfig[] = [
   { id: "kubernetes", label: "Kubernetes", dataFile: "kubernetes.json" },
@@ -30,7 +30,7 @@ export const useTabConfig = () => {
         }
 
         // Fetch from JSON file
-        const response = await fetch(`${BASE_PATH}data/tabs.json`);
+        const response = await fetch(`${GITHUB_RAW_BASE}/tabs.json`);
         if (response.ok) {
           const data = await response.json();
           if (data.tabs && Array.isArray(data.tabs)) {

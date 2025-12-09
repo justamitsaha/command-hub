@@ -11,7 +11,7 @@ export interface AppData {
   commandSections: CommandSection[];
 }
 
-const BASE_PATH = import.meta.env.BASE_URL || "/";
+const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/justamitsaha/configurationServer/main";
 
 export const useTabData = (tabId: string) => {
   const [data, setData] = useState<AppData | null>(null);
@@ -24,7 +24,7 @@ export const useTabData = (tabId: string) => {
       setError(null);
       
       try {
-        const response = await fetch(`${BASE_PATH}data/${tabId}.json`);
+        const response = await fetch(`${GITHUB_RAW_BASE}/${tabId}.json`);
         if (!response.ok) {
           throw new Error(`Failed to load ${tabId} data`);
         }
